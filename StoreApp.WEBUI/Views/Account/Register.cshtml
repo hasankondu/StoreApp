@@ -1,0 +1,57 @@
+﻿@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+
+        $.validator.methods.range = function (value, element, param) {
+            var globalizedValue = value.replace(",", ".");
+            return this.optional(element) || (globalizedValue >= param[0] && globalizedValue <= param[1]);
+        }
+
+        $.validator.methods.number = function (value, element) {
+            return this.optional(element) || /-?(?:\d+|\d{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
+        }
+        //Date dd/MM/yyyy
+        $.validator.methods.date = function (value, element) {
+            var date = value.split("/");
+            return this.optional(element) || !/Invalid|NaN/.test(new Date(date[2], date[1], date[0]).toString());
+        }
+    </script>
+}
+
+
+<!-- register -->
+<div class="register">
+    <div class="container">
+        <h2>Kayıt Ol</h2>
+        <div class="login-form-grids">
+            <h5>Hesap Bilgileri</h5>
+            <form asp-controller="Account" asp-action="Register" method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <input asp-for="FullName"  value="@Model.FullName"placeholder="Ad Soyad" >
+                <input asp-for="Username" value="@Model.Username" placeholder="Kullanıcı Adı" >
+                <input asp-for="Email" value="@Model.Email" placeholder="Email Adresi" style="margin-top:15px">
+                <input asp-for="Password" value="@Model.Password" placeholder="Parola" >
+                <input asp-for="RePassword" value="@Model.RePassword" placeholder="Parola Tekrar" >
+                @*<div class="register-check-box">
+                    <div class="check">
+                        <label class="checkbox"><input type="checkbox" name="checkbox"><i> </i>I accept the terms and conditions</label>
+                    </div>
+                </div>*@
+                <input type="submit" value="Kayıt Ol">
+            </form>
+        </div>
+        <div class="register-home">
+            <a asp-controller="Home" asp-action="Index">Anasayfa</a>
+        </div>
+    </div>
+</div>
+<!-- //register -->

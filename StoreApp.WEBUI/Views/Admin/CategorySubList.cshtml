@@ -1,0 +1,51 @@
+﻿@model CategorySubListModel
+@{
+    ViewData["Title"] = "CategorySubList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model.CategorySubs.Count() > 0)
+{
+    <div class="checkout">
+        <div class="container">
+            <div class="checkout-right">
+                <table class="timetable_sub">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th style="width:150px">Image</th>
+                            <th>Sub Category Name</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.CategorySubs)
+                        {
+                            <tr class="rem1">
+                                <td class="invert">@item.CategorySubID</td>
+                                <td class="invert-image"><a href="single.html"><img src="~/images/categorysubs/@item.ImageUrl" width="80" /></a></td>
+                                <td class="invert">@item.CategorySubName</td>
+                                <td class="invert">
+                                    <a class="btn btn-primary btn-sm mr-2" href="/admin/editcategorysub/@item.CategorySubID">Değiştir</a>
+                                    <form action="/admin/deletecategorysub" method="post">
+                                        <input type="hidden" name="categorySubID" value="@item.CategorySubID" />
+                                        <button type="submit" class="btn btn-danger btn-sm">Kaldır</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-warning">
+        <h4>Henüz ürününüz yok!</h4>
+    </div>
+}

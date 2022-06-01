@@ -1,0 +1,54 @@
+﻿@model ProductListModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model.Products.Count() > 0)
+{
+    <div class="checkout">
+        <div class="container">
+            @*<h2>Your shopping cart contains: <span>3 Products</span></h2>*@
+            <div class="checkout-right">
+                <table class="timetable_sub">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th style="width:150px">Resim</th>
+                            <th>Ürün İsmi</th>
+                            <th style="width:200px">Fiyat</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Products)
+                        {
+                        <tr class="rem1">
+                            <td class="invert">@item.ProductID</td>
+                            <td class="invert-image"><a asp-controller="Store" asp-action="Details" asp-route-id="@item.ProductID"><img src="~/images/products/@item.ImageUrl" width="80" /></a></td>
+                            <td class="invert"><a asp-controller="Store" asp-action="Details" asp-route-id="@item.ProductID">@item.ProductName</a></td>
+                            <td class="invert">@item.UnitPrice</td>
+                            <td class="invert">
+                                <a class="btn btn-primary btn-sm mr-2" href="/user/products/@item.ProductID">Değiştir</a>
+                                <form action="/user/deleteproduct" method="post">
+                                    <input type="hidden" name="productID" value="@item.ProductID" />
+                                    <button type="submit" class="btn btn-danger btn-sm">Kaldır</button>
+                                </form>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-warning">
+        <h4>Henüz ürününüz yok!</h4>
+    </div>
+}
+
+
+<!-- //checkout -->

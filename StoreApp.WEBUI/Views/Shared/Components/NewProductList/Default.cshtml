@@ -1,0 +1,44 @@
+﻿@model NewProductListViewModel
+
+@foreach (var product in Model.Products)
+{
+    <div class="col-md-3 top_brand_left-1">
+        <div class="hover14 column">
+            <div class="agile_top_brand_left_grid">
+                <div class="agile_top_brand_left_grid_pos">
+                    <img src="~/images/offer.png" alt=" " class="img-responsive">
+                </div>
+                <div class="agile_top_brand_left_grid1">
+                    <figure>
+                        <div class="snipcart-item block">
+                            <div class="snipcart-thumb">
+                                <a asp-controller="Store" asp-action="Details" asp-route-id="@product.ProductID">
+                                    <img title=" " alt=" " src="~/images/products/@product.ImageUrl" width="150" height="150">
+                                    <p>@product.ProductName</p>
+                                </a>
+                               
+                                <h4>@product.UnitPrice ₺ @*<span>$55.00</span>*@</h4>
+                            </div>
+                            <div class="snipcart-details top_brand_home_details">
+                                <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                                    <fieldset>
+
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+
+                                            <input type="hidden" name="productId" value="@product.ProductID" />
+                                            <input type="hidden" name="quantity" value="1" />
+
+
+                                            <input type="submit" value="Sepete Ekle" class="button">
+                                        }
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </div>
+}

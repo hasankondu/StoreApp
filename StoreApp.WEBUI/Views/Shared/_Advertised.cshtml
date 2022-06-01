@@ -1,0 +1,40 @@
+﻿@model Advertised
+
+<div class="col-md-4 top_brand_left" style="margin-bottom:10px">
+    <div class="hover14 column">
+        <div class="agile_top_brand_left_grid">
+            <div class="agile_top_brand_left_grid_pos">
+                <img src="~/images/offer.png" alt=" " class="img-responsive" />
+            </div>
+            <div class="agile_top_brand_left_grid1">
+                <figure>
+                    <div class="snipcart-item block">
+                        <div class="snipcart-thumb">
+                            <a asp-controller="Store" asp-action="Details" asp-route-id="@Model.Product.ProductID">
+                                <img title=" " alt=" " src="~/images/products/@Model.Product.ImageUrl" width="150" height="150" />
+                                <p>@Model.Product.ProductName</p>
+                            </a>
+                        <h4>@Model.Product.UnitPrice ₺</h4>
+                        </div>
+                        <div class="snipcart-details top_brand_home_details">
+                            <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                                <fieldset>
+
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+
+                                        <input type="hidden" name="productId" value="@Model.ProductID" />
+                                        <input type="hidden" name="quantity" value="1" />
+
+
+                                        <input type="submit" value="Sepete Ekle" class="button">
+                                    }
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </figure>
+            </div>
+        </div>
+    </div>
+</div>

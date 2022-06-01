@@ -1,0 +1,53 @@
+﻿@model ProductModel
+@{
+    ViewData["Title"] = "CreateProduct";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/modules/ckeditor/ckeditor.js"></script>
+
+    <script>
+
+        $.validator.methods.range = function (value, element, param) {
+            var globalizedValue = value.replace(",", ".");
+            return this.optional(element) || (globalizedValue >= param[0] && globalizedValue <= param[1]);
+        }
+
+        $.validator.methods.number = function (value, element) {
+            return this.optional(element) || /-?(?:\d+|\d{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
+        }
+        //Date dd/MM/yyyy
+        $.validator.methods.date = function (value, element) {
+            var date = value.split("/");
+            return this.optional(element) || !/Invalid|NaN/.test(new Date(date[2], date[1], date[0]).toString());
+        }
+    </script>
+
+    <script>
+        CKEDITOR.replace("editor")
+    </script>
+ }
+<div class="register">
+    <div class="container">
+        <h2>Ürün Ekle</h2>
+        <div class="login-form-grids">
+            <form asp-controller="User" asp-action="CreateProduct" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <input asp-for="ProductName" value="@Model.ProductName" placeholder="Ürün İsmi" />
+                @*<span asp-validation-for="ProductName" class="text-danger"></span>*@
+                <input type="hidden" name="ImageUrl" value="@Model.ImageUrl" />
+                <img id="example" src="~/images/products/@Model.ImageUrl" alt=" " class="img-responsive" width="300">
+                <input type="file" name="file" placeholder="Resim Url" />
+                @*<input asp-for="ImageUrl" value="@Model.ImageUrl" placeholder="Resim Url" />*@
+                @*<span asp-validation-for="ImageUrl" class="text-danger"></span>*@
+                <textarea id="editor" asp-for="Description" placeholder="Ürün Açıklaması" rows="4" cols="50" style="outline: none; border: 1px solid #DBDBDB; padding: 10px 10px 10px 10px; font-size: 14px; color: #999; display: block; width: 100%; margin-top:10px; margin-bottom:10px;">@Model.Description</textarea>
+                @*<span asp-validation-for="Description" class="text-danger"></span>*@
+                <input asp-for="UnitPrice" value="@Model.UnitPrice" placeholder="Fiyat" />
+                @*<span asp-validation-for="UnitPrice" class="text-danger"></span>*@
+                <input type="submit" value="Ürün Ekle">
+            </form>
+        </div>
+    </div>
+</div>

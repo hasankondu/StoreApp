@@ -1,0 +1,22 @@
+﻿@model CategoryModel
+@{
+    ViewData["Title"] = "EditCategory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="register">
+    <div class="container">
+        <h2>Kategori Güncelle</h2>
+        <div class="login-form-grids">
+            <form asp-controller="Admin" asp-action="EditCategory" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="categoryID" value="@Model.CategoryID" />
+                <input asp-for="CategoryName" value="@Model.CategoryName" placeholder="Ürün İsmi" />
+                <input type="hidden" name="ImageUrl" value="@Model.ImageUrl" />
+                <img id="example" src="~/images/categories/@Model.ImageUrl" alt=" " class="img-responsive" width="300">
+                <input type="file" name="file" placeholder="Resim Url" />
+                @*<input asp-for="ImageUrl" value="@Model.ImageUrl" placeholder="Resim Url" />*@
+                <input type="submit" value="Kategori Düzenle">
+            </form>
+        </div>
+    </div>
+</div>

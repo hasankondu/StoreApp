@@ -1,0 +1,95 @@
+﻿@model CartModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (Model.CartItems.Count > 0)
+{
+    <div class="checkout">
+        <div class="container">
+            <h2>Alışveriş sepetiniz <span>@Model.CartItems.Count() ürün</span> içeriyor.</h2>
+            <div class="checkout-right">
+                <table class="timetable_sub">
+                    <thead>
+                        <tr>
+                            <th style="width:250px"></th>
+                            <th>Ürün İsmi</th>
+                            <th style="width:200px">Fiyat</th>
+                            <th>Miktar</th>
+                            <th>Toplam</th>
+                            <th>Kaldır</th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model.CartItems)
+                    {
+
+
+                        <tr class="rem1">
+                            <td class="invert-image"><a asp-controller="Store" asp-action="Details" asp-route-id="@item.ProductId"><img src="~/images/products/@item.ImageUrl" width="80" /></a></td>
+                            <td class="invert">@item.ProductName</td>
+                            <td class="invert">@item.UnitPrice.ToString("c")</td>
+                            <td class="invert">@item.Quantity</td>
+                            <td class="invert">@((item.Quantity*item.UnitPrice).ToString("c"))</td>
+                            <td class="invert">
+                                <form asp-controller="Cart" asp-action="RemoveFromCart">
+                                    <input type="hidden" name="productId" value="@item.ProductId" />
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        <i class="fa fa-times fa-fw"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <div class="checkout-left">
+                <div class="checkout-left-basket">
+                    <h4>Sepeti Özeti</h4>
+                    <ul>
+                        <li>Sepet Toplamı: <i></i> <span>@Model.TotalPrice().ToString("c")</span></li>
+                        <li>Kargo Ücreti: <i></i> <span>Ücretsiz</span></li>
+                        <li>İndirim: <i></i> <span> - </span></li>
+                        <li>Sipariş Toplamı: <i></i> <span>@Model.TotalPrice().ToString("c")</span></li>
+                        <li>Sepet Toplamı: <i></i> <span>@Model.TotalPrice().ToString("c")</span></li>
+                        <li>
+                            <a href="/checkout" class="btn btn-primary" style="width:300px;height:40px;">
+                                <i class="fa fa-arrow-circle-right fa-fw"></i>Siparişi tamamla
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="checkout-right-basket">
+                    <a href="single.html"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Alışverişe devam</a>
+                </div>
+
+
+
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+    </div>
+}
+
+else
+{
+    <div class="alert alert-warning" style="height:500px">
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <h4 style="text-align:center">Henüz sepette hiç bir ürün yok!</h4>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+    </div>
+}

@@ -1,0 +1,84 @@
+﻿@model ProductModel
+@{
+    ViewData["Title"] = "EditProduct";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var counter = 0;
+}
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/modules/ckeditor/ckeditor.js"></script>
+
+    <script>
+
+        $.validator.methods.range = function (value, element, param) {
+            var globalizedValue = value.replace(",", ".");
+            return this.optional(element) || (globalizedValue >= param[0] && globalizedValue <= param[1]);
+        }
+
+        $.validator.methods.number = function (value, element) {
+            return this.optional(element) || /-?(?:\d+|\d{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
+        }
+        //Date dd/MM/yyyy
+        $.validator.methods.date = function (value, element) {
+            var date = value.split("/");
+            return this.optional(element) || !/Invalid|NaN/.test(new Date(date[2], date[1], date[0]).toString());
+        }
+    </script>
+
+    <script>
+        CKEDITOR.replace("editor")
+    </script>
+}
+
+<form asp-controller="User" asp-action="EditProduct" method="post" enctype="multipart/form-data">
+    <div class="register">
+        <div class="container">
+            <h2>Ürün Düzenle</h2>
+            <div class="login-form-grids">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <input type="hidden" name="ProductID" value="@Model.ProductID" />
+                <input asp-for="ProductName" value="@Model.ProductName" placeholder="Ürün İsmi" />
+
+                <input type="hidden" name="ImageUrl" value="@Model.ImageUrl" />
+                <img id="example" src="~/images/products/@Model.ImageUrl" alt=" " class="img-responsive" width="300">
+                <input type="file" name="file" placeholder="Resim Url" />
+                @*<input asp-for="ImageUrl" value="@Model.ImageUrl" placeholder="Resim Url" />*@
+                <textarea id="editor" asp-for="Description" placeholder="Ürün Açıklaması" rows="4" cols="50" style="outline: none; border: 1px solid #DBDBDB; padding: 10px 10px 10px 10px; font-size: 14px; color: #999; display: block; width: 100%; margin-top:10px; margin-bottom:10px;">@Model.Description</textarea>
+
+                <input asp-for="UnitPrice" value="@Model.UnitPrice" placeholder="Fiyat" />
+
+                @*//kategori comboboxdan seçilen değere göre alt kategori comboboxını doldurmayı java script ve ajaxla dene*@
+
+
+                @foreach (var item in (List<CategorySub>)ViewBag.CategorySubs)
+                {
+                    var isChecked = "";
+
+                    if (Model.SelectedCategorySubs.Any(i => i.CategorySubID == item.CategorySubID))
+                    {
+                        isChecked = "checked";
+                        <input type="hidden" name="SelectedCategorySubs[@counter].CategorySubID" value="@item.CategorySubID" />
+                        <input type="hidden" name="SelectedCategorySubs[@counter].CategorySubName" value="@item.CategorySubName" />
+
+                        counter++;
+
+                    }
+                    else
+                    {
+                        isChecked = "";
+                    }
+
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" name="categorySubIDs" value="@item.CategorySubID" class="custom-control-input" id="categorySub(@item.CategorySubID)" @isChecked>
+                        <label class="custom-control-label" for="categorySub(@item.CategorySubID)">@item.CategorySubName</label>
+                    </div>
+                }
+
+                <input type="submit" value="Ürün Düzenle">
+
+            </div>
+        </div>
+    </div>
+</form>
+

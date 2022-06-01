@@ -1,0 +1,102 @@
+﻿@model FavoriteModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (@Model.FavoriteItems.Count>0)
+{
+<div class="products">
+    <div class="container">
+        <div class="col-md-12 products-left">
+            <div class="agile_top_brands_grids">
+                @foreach (var item in Model.FavoriteItems)
+                {
+                    <div class="col-md-4 top_brand_left">
+                        <div class="hover14 column">
+                            <div class="agile_top_brand_left_grid">
+                                <div class="agile_top_brand_left_grid_pos">
+                                    <img src="~/images/offer.png" alt=" " class="img-responsive">
+                                </div>
+                                <div class="agile_top_brand_left_grid1">
+                                    <figure>
+                                        <div class="snipcart-item block">
+                                            <div class="snipcart-thumb">
+                                                <a asp-controller="Store" asp-action="Details" asp-route-id="@item.ProductId">
+                                                    <img title=" " alt=" " src="~/images/products/@item.ImageUrl" width="150" height="150">
+                                                    <p>@item.ProductName</p>
+                                                </a>
+                                                <h4>@item.UnitPrice</h4>
+                                            </div>
+                                            <div class="snipcart-details top_brand_home_details">
+
+                                                <form asp-controller="Cart" asp-action="AddToFavorite" method="post">
+                                                    <fieldset>
+
+                                                        @if (User.Identity.IsAuthenticated)
+                                                        {
+
+                                                            <input type="hidden" name="productId" value="@item.ProductId" />
+
+
+
+                                                            <input type="submit" value="Sepete Ekle" class="button">
+                                                        }
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+
+                                            <div class="snipcart-details top_brand_home_details">
+                                                <form asp-controller="Favorite" asp-action="RemoveFromFavorite" method="post" style="margin-top:5px">
+                                                    <fieldset>
+
+                                                        @if (User.Identity.IsAuthenticated)
+                                                        {
+
+
+                                                            <input type="hidden" name="productId" value="@item.ProductId" />
+                                                            <button type="submit" class="button btn-danger">X</button>
+
+                                                        }
+                                                    </fieldset>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </figure>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+else
+{
+<div class="alert alert-warning" style="height:500px">
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <h4 style="text-align:center">Henüz favorilerinde hiç bir ürün yok!</h4>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+</div>
+}
+

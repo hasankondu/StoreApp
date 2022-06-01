@@ -1,0 +1,80 @@
+﻿@model CategorySubModel
+@{
+    ViewData["Title"] = "EditCategorySub";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="register">
+    <div class="container">
+        <h2>Alt Kategori Güncelle</h2>
+        <div class="login-form-grids">
+            <form asp-controller="Admin" asp-action="EditCategorySub" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="categorySubID" value="@Model.CategorySubID" />
+                <input asp-for="CategorySubName" value="@Model.CategorySubName" placeholder="Alt Kategori İsmi" />
+                <input type="hidden" name="ImageUrl" value="@Model.ImageUrl" />
+                <img id="example" src="~/images/categorysubs/@Model.ImageUrl" alt=" " class="img-responsive" width="300">
+                <input type="file" name="file" placeholder="Resim Url" />
+                @*<input asp-for="ImageUrl" value="@Model.ImageUrl" placeholder="Resim Url" />*@
+                <p style="width:420px;height:35px;margin-top:15px;">Bu alt kategorinin hangi kategoriye ait olacağını seçiniz:</p>
+                <select asp-for="CategoryID" style="width:420px;height:35px;margin-top:15px;">
+                    @foreach (var item in Model.Categories)
+                    {
+                        <option value="@item.CategoryID">@item.CategoryName</option>
+                    }
+
+                </select>
+                <input type="submit" value="Alt Kategori Düzenle">
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@if (Model.Products.Count() > 0)
+{
+    <div class="checkout">
+        <div class="container">
+            <div class="checkout-right">
+                <table class="timetable_sub">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th style="width:150px">Image</th>
+                            <th>Product Name</th>
+                            <th style="width:200px">Price</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Products)
+                        {
+                            <tr class="rem1">
+                                <td class="invert">@item.ProductID</td>
+                                <td class="invert-image"><a href="single.html"><img src="~/images/products/@item.ImageUrl" width="80" /></a></td>
+                                <td class="invert">@item.ProductName</td>
+                                <td class="invert">@item.UnitPrice</td>
+                                <td class="invert">
+                                    <a class="btn btn-primary btn-sm mr-2" href="/user/products/@item.ProductID">Değiştir</a>
+                                    <form action="/admin/deletefromcategorysub" method="post">
+                                        <input type="hidden" name="productID" value="@item.ProductID" />
+                                        <input type="hidden" name="categorySubID" value="@Model.CategorySubID" />
+                                        <button type="submit" title="Sadece kategoriden siler. Ürünü silmez." class="btn btn-danger btn-sm">Kaldır</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-warning">
+        <h4>Henüz ürününüz yok!</h4>
+    </div>
+}

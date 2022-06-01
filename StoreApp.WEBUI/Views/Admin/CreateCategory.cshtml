@@ -1,0 +1,49 @@
+﻿@model CategoryModel
+@{
+    ViewData["Title"] = "CreateCategory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/modules/ckeditor/ckeditor.js"></script>
+
+    <script>
+
+        $.validator.methods.range = function (value, element, param) {
+            var globalizedValue = value.replace(",", ".");
+            return this.optional(element) || (globalizedValue >= param[0] && globalizedValue <= param[1]);
+        }
+
+        $.validator.methods.number = function (value, element) {
+            return this.optional(element) || /-?(?:\d+|\d{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
+        }
+        //Date dd/MM/yyyy
+        $.validator.methods.date = function (value, element) {
+            var date = value.split("/");
+            return this.optional(element) || !/Invalid|NaN/.test(new Date(date[2], date[1], date[0]).toString());
+        }
+    </script>
+
+    <script>
+        CKEDITOR.replace("editor")
+    </script>
+}
+
+<div class="register">
+    <div class="container">
+        <h2>Kategori Ekle</h2>
+        <div class="login-form-grids">
+            <form asp-controller="Admin" asp-action="CreateCategory" method="post" enctype="multipart/form-data">
+                <input asp-for="CategoryName" value="" placeholder="Kategori İsmi" />
+
+                <input type="hidden" name="ImageUrl" value="@Model.ImageUrl" />
+                <img id="example" src="~/images/categories/@Model.ImageUrl" alt=" " class="img-responsive" width="300">
+                <input type="file" name="file" placeholder="Resim Url" />
+                @*<input asp-for="ImageUrl" value="" placeholder="Resim Url" />*@
+                <input type="submit" value="Kategori Ekle">
+            </form>
+        </div>
+    </div>
+</div>

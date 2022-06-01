@@ -1,0 +1,83 @@
+﻿@model ProductDetailsModel
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="products">
+    <div class="container">
+        <div class="agileinfo_single">
+
+            <div class="col-md-4 agileinfo_single_left">
+                <img id="example" src="~/images/products/@Model.Product.ImageUrl" alt=" " class="img-responsive">
+            </div>
+            <div class="col-md-8 agileinfo_single_right">
+                <h2>@Model.Product.ProductName</h2>
+                <hr />
+                <p>Kategorileri:</p>
+                @foreach (var categorysub in Model.CategorySubs)
+                {
+                    <a href="#" class="btn btn-link p-0 mb-3">@categorysub.CategorySubName</a>
+                }
+                <figure>
+                    <div class="snipcart-item block">
+                        <div class="snipcart-thumb agileinfo_single_right_snipcart">
+                            <h4 class="m-sing">@Model.Product.UnitPrice ₺ </h4>
+                        </div>
+                        
+                        <div class="snipcart-details agileinfo_single_right_details">
+                            
+                            <form asp-controller="Favorite" asp-action="AddToFavorite" method="post">
+                                <fieldset class="pull-left" style="margin-right:15px">
+
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+
+                                        <input type="hidden" name="productId" value="@Model.Product.ProductID" />
+
+                                        <button type="submit" style="background:none;padding:0px;border:none;"><span style="color:crimson"><i class="fa fa-heart fa-2x"></i></span></button>
+                                    }
+
+                                </fieldset>
+                            </form>
+                            <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                                <fieldset>
+
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <input type="number" name="quantity" class="form-control" value="1" min="1" step="1" style="width:70px; margin-bottom:15px; margin-left:70px;" />
+                                        <input type="hidden" name="productId" value="@Model.Product.ProductID" />
+                                        <input type="hidden" name="quantity" value="1" />
+
+                                        <input type="submit" value="Sepete Ekle" class="button">
+
+                                    }
+                                </fieldset>
+                            </form>
+
+
+                        </div>
+                    </div>
+                </figure>
+                <div class="w3agile_description">
+                    <h4>Ürün açıklaması :</h4>
+                    <p>
+                        @Html.Raw(Model.Product.Description)
+                    </p>
+                </div>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+</div>
+<!-- new -->
+<div class="newproducts-w3agile">
+    <div class="container">
+        <h3>New offers</h3>
+        <div class="agile_top_brands_grids">
+            @await Component.InvokeAsync("NewProductList")
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+</div>
+

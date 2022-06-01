@@ -1,0 +1,146 @@
+﻿@model OrderModel
+@{
+    ViewData["Title"] = "Checkout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div class=" w3_agileits_contact_grid_right" style="margin-bottom:100px;margin-top:100px;">
+            <form action="/checkout" method="post">
+                <h2 class="w3_agile_header">Sipariş<span> Bilgileriniz</span></h2>
+                <div class="col-md-6">
+
+                    <span class="input input--ichiro">
+                        <input asp-for="@Model.FirstName" class="input__field input__field--ichiro" id="input-25" placeholder=" " required="" />
+                        <label asp-for="@Model.FirstName" class="input__label input__label--ichiro" for="input-25">
+                            <span class="input__label-content input__label-content--ichiro">Adınız</span>
+                        </label>
+                    </span>
+                    <span class="input input--ichiro">
+                        <input asp-for="@Model.LastName" class="input__field input__field--ichiro" id="input-26" placeholder=" " required="" />
+                        <label asp-for="@Model.LastName" class="input__label input__label--ichiro" for="input-26">
+                            <span class="input__label-content input__label-content--ichiro">Soyadınız</span>
+                        </label>
+                    </span>
+
+                    <span class="input input--ichiro">
+                        <input asp-for="@Model.Phone" class="input__field input__field--ichiro" id="input-28" placeholder=" " required="" />
+                        <label asp-for="@Model.Phone" class="input__label input__label--ichiro" for="input-28">
+                            <span class="input__label-content input__label-content--ichiro">Telefon</span>
+                        </label>
+                    </span>
+                    <span class="input input--ichiro">
+                        <input asp-for="@Model.Email" class="input__field input__field--ichiro" id="input-29" placeholder="" required="" />
+                        <label asp-for="@Model.Email" class="input__label input__label--ichiro" for="input-29">
+                            <span class="input__label-content input__label-content--ichiro">Email</span>
+                        </label>
+                    </span>
+                </div>
+                <div class="col-md-6">
+                    <span class="input input--ichiro">
+                        <input class="input__field input__field--ichiro" type="text" id="input-27" asp-for="@Model.City" placeholder=" " required="" />
+                        <label asp-for="@Model.City" class="input__label input__label--ichiro" for="input-27">
+                            <span class="input__label-content input__label-content--ichiro">Şehir</span>
+                        </label>
+                    </span>
+                    <label asp-for="@Model.Address">Adresiniz</label>
+                    <textarea asp-for="@Model.Address" placeholder="" required=""></textarea>
+                    <br />
+                    <div class="custom-control custom-checkbox text-center">
+                        <input type="checkbox" class="custom-control-input" id="saveinfo" />
+                        <label class="custom-control-label" for="save-info">Adres bilgilerimi kaydet.</label>
+                    </div>
+                </div>
+
+                <div class="col-md-8 " style="margin-top:50px;">
+                    <div style="margin-left:250px">
+                        <h2 class="w3_agile_header"><span> Ödeme</span></h2>
+                        <br />
+                        <div class="custom-control custom-radio" style="text-align:center;">
+                            <input type="radio" class="custom-control-input" id="credit" name="paymentMethod" value="customEx">
+                            <label class="custom-control-label" for="credit">Credit Card</label>
+                        </div>
+
+
+
+                        <div class="custom-control custom-radio" style="text-align:center;">
+                            <input type="radio" class="custom-control-input" id="eft" name="paymentMethod" value="customEx">
+                            <label class="custom-control-label" for="eft">EFT</label>
+                        </div>
+
+                        <br />
+
+                        <span class="input input--ichiro">
+                            <input asp-for="@Model.CardName" class="input__field input__field--ichiro" id="input-30" placeholder=" " required="" />
+                            <label asp-for="@Model.CardName" class="input__label input__label--ichiro" for="input-30">
+                                <span class="input__label-content input__label-content--ichiro">Kredi kartı üzerindeki isim</span>
+                            </label>
+                        </span>
+                        <span class="input input--ichiro">
+                            <input asp-for="@Model.CardNumber" class="input__field input__field--ichiro" id="input-31" placeholder=" " required="" />
+                            <label asp-for="@Model.CardNumber" class="input__label input__label--ichiro" for="input-31">
+                                <span class="input__label-content input__label-content--ichiro">Kredi kartı numarası</span>
+                            </label>
+                        </span>
+
+                        <span class="input input--ichiro">
+                            <input asp-for="@Model.ExpirationMonth" class="input__field input__field--ichiro" id="input-32" placeholder=" " required="" />
+                            <label asp-for="@Model.ExpirationMonth" class="input__label input__label--ichiro" for="input-32">
+                                <span class="input__label-content input__label-content--ichiro">Ay</span>
+                            </label>
+                        </span>
+                        <span class="input input--ichiro">
+                            <input asp-for="@Model.ExpirationYear" class="input__field input__field--ichiro" id="input-33" placeholder=" " required="" />
+                            <label asp-for="@Model.ExpirationYear" class="input__label input__label--ichiro" for="input-33">
+                                <span class="input__label-content input__label-content--ichiro">Yıl</span>
+                            </label>
+                        </span>
+                        <span class="input input--ichiro">
+                            <input asp-for="@Model.CVV" class="input__field input__field--ichiro" id="input-34" placeholder=" " required="" />
+                            <label asp-for="@Model.CVV" class="input__label input__label--ichiro" for="input-34">
+                                <span class="input__label-content input__label-content--ichiro">CVV</span>
+                            </label>
+                        </span>
+                    </div>
+                </div>
+
+
+                <input type="submit" value="Siparişi Tamamla" class="mb-3">
+            </form>
+        </div>
+        <div class="clearfix">
+        </div>
+
+    </div>
+    <div class="col-md-4" style="margin-top:200px; margin-bottom:100px">
+        <div class=" w3_agileits_contact_grid_right">
+            <h4 class="mb-3">
+                <span class="text-muted">Your Cart</span>
+            </h4>
+            <ul class="list-group mb-3">
+                @foreach (var item in Model.CartModel.CartItems)
+                {
+                    <li class="list-group-item d-flex justify-content-between">
+                        <div>
+                            <h6 class="my-0">
+                                @item.ProductName
+                                <span class="text-muted">x @item.Quantity</span>
+                            </h6>
+                            <img title=" " alt=" " src="~/images/products/@item.ImageUrl" width="150" height="150">
+                        </div>
+                        <span class="text-muted">@item.UnitPrice x @item.Quantity = @(item.UnitPrice*item.Quantity)</span>
+                    </li>
+                }
+
+
+
+                <li class="list-group-item d-flex justify-content-between">
+
+                    <span>Toplam(TL): </span>
+                    <strong>@Model.CartModel.TotalPrice() TL</strong>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

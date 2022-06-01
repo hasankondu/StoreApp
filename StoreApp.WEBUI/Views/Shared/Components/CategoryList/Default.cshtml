@@ -1,0 +1,40 @@
+﻿@model CategoryListViewModel
+
+<div class="col-md-4 products-left">
+    <div class="categories">
+        <h2>Kategoriler</h2>
+        <div class="list-group">
+            <ul class="cate">
+                <li>
+                    @{ int i = 0;}
+                    @foreach (var category in Model.Categories)
+                    {
+                        
+                        <a href="#@i" class="list-group-item list-group-item-action" data-toggle="collapse">
+                            <i class="fa fa-arrow-right" aria-hidden="true"></i>@category.CategoryName
+                        </a>
+                        <div id="@i" class="collapse">
+                            <ul>
+
+                                @foreach (var categorySub in category.CategorySubs)
+                                {
+
+                                    <li>
+                                        <a asp-controller="Store"
+                                           asp-action="Products"
+                                           asp-route-categorysub="@categorySub.CategorySubName.ToLower()"
+                                           class="list-group-item list-group-item-action @(Model.SelectedCategorySub==categorySub.CategorySubName.ToLower()?"active":"")">
+                                            <i class="fa fa-arrow-right" aria-hidden="true"></i>@categorySub.CategorySubName
+                                        </a>
+                                    </li>
+                                }
+
+                            </ul>
+                        </div>
+                        i++;
+                    }
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
